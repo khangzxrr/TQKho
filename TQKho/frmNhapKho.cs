@@ -82,7 +82,7 @@ namespace TQKho
                     inputControls.ForEach(control =>
                     {
                         control.Enabled = false;
-                        control.BackColor = Color.Gray;
+                        control.BackColor = Color.GhostWhite;
                     });
 
                     break;
@@ -127,6 +127,9 @@ namespace TQKho
 
                     saveAndRefresh();
                     inputControls.ForEach(control => control.Text = "");
+
+                    inputState = formInputProductConstraint.InputState.DISABLE;
+                    setInputStateBaseOnState();
                 }
                 catch (FormatException)
                 {
@@ -148,6 +151,9 @@ namespace TQKho
 
                     saveAndRefresh();
                     inputControls.ForEach(control => control.Text = "");
+
+                    inputState = formInputProductConstraint.InputState.DISABLE;
+                    setInputStateBaseOnState();
                 }
                 catch (FormatException)
                 {
@@ -206,7 +212,33 @@ namespace TQKho
 
         private void exportBtn_Click(object sender, EventArgs e)
         {
+            var product = (Product)this.dataGridViewProducts.CurrentRow.DataBoundItem;
 
+            if (product == null)
+            {
+                MessageBox.Show("Vui lòng chọn sản phẩm muốn xuất kho");
+                return;
+            }
+
+            if (inputState != formInputProductConstraint.InputState.DISABLE)
+            {
+                MessageBox.Show("Vui lòng chọn save dữ liệu trước khi sử dụng xuất kho");
+                return;
+            }
+
+            XuatKhoConfirmForm xuatKhoConfirmForm = new XuatKhoConfirmForm(context!, product.productId);
+            xuatKhoConfirmForm.ShowDialog();    
+        }
+
+        private void cellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var product = (Product)this.dataGridViewProducts.CurrentRow.DataBoundItem;
+
+            poTextBox.Text = product.poCode;
+            productCodeTextBox.Text = product.productCode;
+            productNameTextBox.Text = product.productName;
+            productQuantityTextBox.Text = product.quantity.ToString();
+            productShelfTextBox.Text = product.shelfCode;
         }
     }
 }
