@@ -48,8 +48,12 @@ namespace TQKho
 
                 productContext.SaveChanges();
 
+                MessageBox.Show("Xuất kho thành công!");
+
+                this.Close();
+
             }
-            catch(FormatException format)
+            catch(FormatException)
             {
                 MessageBox.Show("Vui lòng đảm bảo số lượng xuất là số");
                 return;

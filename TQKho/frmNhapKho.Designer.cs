@@ -106,7 +106,7 @@
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = SystemColors.Window;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.ForeColor = Color.Gainsboro;
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
@@ -114,6 +114,7 @@
             dataGridViewProducts.Location = new Point(3, 55);
             dataGridViewProducts.Margin = new Padding(3, 4, 3, 4);
             dataGridViewProducts.Name = "dataGridViewProducts";
+            dataGridViewProducts.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = SystemColors.Control;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
@@ -127,6 +128,7 @@
             dataGridViewProducts.Size = new Size(840, 591);
             dataGridViewProducts.TabIndex = 1;
             dataGridViewProducts.CellClick += cellClick;
+            dataGridViewProducts.CellValidating += cellValidating;
             dataGridViewProducts.DataError += dataGridViewProducts_DataError;
             dataGridViewProducts.SelectionChanged += productGridView_SelectionChanged;
             // 
@@ -147,6 +149,7 @@
             poCodeDataGridViewTextBoxColumn.HeaderText = "poCode";
             poCodeDataGridViewTextBoxColumn.MinimumWidth = 6;
             poCodeDataGridViewTextBoxColumn.Name = "poCodeDataGridViewTextBoxColumn";
+            poCodeDataGridViewTextBoxColumn.ReadOnly = true;
             poCodeDataGridViewTextBoxColumn.Width = 91;
             // 
             // productCodeDataGridViewTextBoxColumn
@@ -156,6 +159,7 @@
             productCodeDataGridViewTextBoxColumn.HeaderText = "productCode";
             productCodeDataGridViewTextBoxColumn.MinimumWidth = 6;
             productCodeDataGridViewTextBoxColumn.Name = "productCodeDataGridViewTextBoxColumn";
+            productCodeDataGridViewTextBoxColumn.ReadOnly = true;
             productCodeDataGridViewTextBoxColumn.Width = 125;
             // 
             // productNameDataGridViewTextBoxColumn
@@ -165,6 +169,7 @@
             productNameDataGridViewTextBoxColumn.HeaderText = "productName";
             productNameDataGridViewTextBoxColumn.MinimumWidth = 6;
             productNameDataGridViewTextBoxColumn.Name = "productNameDataGridViewTextBoxColumn";
+            productNameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // quantityDataGridViewTextBoxColumn
             // 
@@ -173,6 +178,7 @@
             quantityDataGridViewTextBoxColumn.HeaderText = "quantity";
             quantityDataGridViewTextBoxColumn.MinimumWidth = 6;
             quantityDataGridViewTextBoxColumn.Name = "quantityDataGridViewTextBoxColumn";
+            quantityDataGridViewTextBoxColumn.ReadOnly = true;
             quantityDataGridViewTextBoxColumn.Width = 92;
             // 
             // shelfCodeDataGridViewTextBoxColumn
@@ -182,6 +188,7 @@
             shelfCodeDataGridViewTextBoxColumn.HeaderText = "shelfCode";
             shelfCodeDataGridViewTextBoxColumn.MinimumWidth = 6;
             shelfCodeDataGridViewTextBoxColumn.Name = "shelfCodeDataGridViewTextBoxColumn";
+            shelfCodeDataGridViewTextBoxColumn.ReadOnly = true;
             shelfCodeDataGridViewTextBoxColumn.Width = 104;
             // 
             // productBindingSource

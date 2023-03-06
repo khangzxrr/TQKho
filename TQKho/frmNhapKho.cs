@@ -6,10 +6,12 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TQKho.Contexts;
 using TQKho.Enums;
+using TQKho.Exceptions;
 using TQKho.Models;
 
 namespace TQKho
@@ -110,26 +112,44 @@ namespace TQKho
             this.context!.SaveChanges();
             this.dataGridViewProducts.Refresh();
         }
+
+        private void validate(Product product)
+        {
+            var shelfCodeValidator = Regex.Match(product.shelfCode, @"^[a-zA-Z]\d+$");
+            if (!shelfCodeValidator.Success)
+            {
+                throw new ShelfCodeInvalidException();
+            }
+        }
+
         private void saveButton_clicked(object sender, EventArgs e)
         {
             if (inputState == formInputProductConstraint.InputState.ON_CREATE)
             {
                 try
                 {
-                    this.context!.Products.Add(new Product
+                    var newProduct = new Product
                     {
                         poCode = poTextBox.Text,
                         productCode = productCodeTextBox.Text,
                         productName = productNameTextBox.Text,
                         quantity = int.Parse(productQuantityTextBox.Text),
-                        shelfCode = productShelfTextBox.Text
-                    });
+                        shelfCode = productShelfTextBox.Text.ToUpper()
+                    };
+
+                    validate(newProduct);
+
+                    this.context!.Products.Add(newProduct);
 
                     saveAndRefresh();
                     inputControls.ForEach(control => control.Text = "");
 
                     inputState = formInputProductConstraint.InputState.DISABLE;
                     setInputStateBaseOnState();
+                }
+                catch (ShelfCodeInvalidException)
+                {
+                    MessageBox.Show("Vui lòng kiểm tra lại\nSai định dạng mã kệ\nVD:K1, B2, K9, C1,...");
                 }
                 catch (FormatException)
                 {
@@ -149,11 +169,17 @@ namespace TQKho
                     product.quantity = int.Parse(productQuantityTextBox.Text);
                     product.shelfCode = productShelfTextBox.Text;
 
+                    validate(product);
+
                     saveAndRefresh();
                     inputControls.ForEach(control => control.Text = "");
 
                     inputState = formInputProductConstraint.InputState.DISABLE;
                     setInputStateBaseOnState();
+                }
+                catch (ShelfCodeInvalidException)
+                {
+                    MessageBox.Show("Vui lòng kiểm tra lại\nSai định dạng mã kệ\nVD:K1, B2, K9, C1,...");
                 }
                 catch (FormatException)
                 {
@@ -212,6 +238,10 @@ namespace TQKho
 
         private void exportBtn_Click(object sender, EventArgs e)
         {
+            if (this.dataGridViewProducts.CurrentRow == null)
+            {
+                return;
+            }
             var product = (Product)this.dataGridViewProducts.CurrentRow.DataBoundItem;
 
             if (product == null)
@@ -227,7 +257,12 @@ namespace TQKho
             }
 
             XuatKhoConfirmForm xuatKhoConfirmForm = new XuatKhoConfirmForm(context!, product.productId);
-            xuatKhoConfirmForm.ShowDialog();    
+            xuatKhoConfirmForm.ShowDialog();
+
+            xuatKhoConfirmForm.Dispose();
+
+            saveAndRefresh();
+
         }
 
         private void cellClick(object sender, DataGridViewCellEventArgs e)
@@ -239,6 +274,21 @@ namespace TQKho
             productNameTextBox.Text = product.productName;
             productQuantityTextBox.Text = product.quantity.ToString();
             productShelfTextBox.Text = product.shelfCode;
+        }
+
+        private void cellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            try
+            {
+                var product = (Product)this.dataGridViewProducts.CurrentRow.DataBoundItem;
+                validate(product);
+            }
+            catch (ShelfCodeInvalidException)
+            {
+                MessageBox.Show("Thông tin mã kệ không hợp lệ\nVD: K1, A1, B2,..");
+                e.Cancel = true;
+            }
+
         }
     }
 }
