@@ -38,6 +38,12 @@ namespace TQKho
             {
                 int exportQuantity = int.Parse(quantityTextbox.Text);
 
+                if (exportQuantity < 0)
+                {
+                    MessageBox.Show("Số xuất kho không thể là âm!");
+                    return;
+                }
+
                 if (product.quantity - exportQuantity < 0)
                 {
                     MessageBox.Show("Số lượng không còn đủ, chỉ còn: " + product.quantity);
