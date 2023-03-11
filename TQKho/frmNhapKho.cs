@@ -34,6 +34,7 @@ namespace TQKho
         {
             base.OnLoad(e);
 
+            context.Products.Include(p => p.shelf).Load();
 
             this.productBindingSource.DataSource = context.Products.Local.ToBindingList();
 

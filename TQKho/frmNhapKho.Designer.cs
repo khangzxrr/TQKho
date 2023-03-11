@@ -34,13 +34,6 @@
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             groupBox1 = new GroupBox();
             dataGridViewProducts = new DataGridView();
-            productIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            poCodeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            productCodeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            productNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            quantityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            shelfIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            shelfDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             productBindingSource = new BindingSource(components);
             toolStrip1 = new ToolStrip();
             iconToolStripButton1 = new FontAwesome.Sharp.IconToolStripButton();
@@ -66,6 +59,13 @@
             label2 = new Label();
             label1 = new Label();
             groupBox3 = new GroupBox();
+            productIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            poCodeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            productCodeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            productNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            quantityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            shelfIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            shelfDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProducts).BeginInit();
             ((System.ComponentModel.ISupportInitialize)productBindingSource).BeginInit();
@@ -133,70 +133,6 @@
             dataGridViewProducts.CellClick += cellClick;
             dataGridViewProducts.DataError += dataGridViewProducts_DataError;
             dataGridViewProducts.SelectionChanged += productGridView_SelectionChanged;
-            // 
-            // productIdDataGridViewTextBoxColumn
-            // 
-            productIdDataGridViewTextBoxColumn.DataPropertyName = "productId";
-            productIdDataGridViewTextBoxColumn.HeaderText = "productId";
-            productIdDataGridViewTextBoxColumn.MinimumWidth = 6;
-            productIdDataGridViewTextBoxColumn.Name = "productIdDataGridViewTextBoxColumn";
-            productIdDataGridViewTextBoxColumn.ReadOnly = true;
-            productIdDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // poCodeDataGridViewTextBoxColumn
-            // 
-            poCodeDataGridViewTextBoxColumn.DataPropertyName = "poCode";
-            poCodeDataGridViewTextBoxColumn.HeaderText = "poCode";
-            poCodeDataGridViewTextBoxColumn.MinimumWidth = 6;
-            poCodeDataGridViewTextBoxColumn.Name = "poCodeDataGridViewTextBoxColumn";
-            poCodeDataGridViewTextBoxColumn.ReadOnly = true;
-            poCodeDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // productCodeDataGridViewTextBoxColumn
-            // 
-            productCodeDataGridViewTextBoxColumn.DataPropertyName = "productCode";
-            productCodeDataGridViewTextBoxColumn.HeaderText = "productCode";
-            productCodeDataGridViewTextBoxColumn.MinimumWidth = 6;
-            productCodeDataGridViewTextBoxColumn.Name = "productCodeDataGridViewTextBoxColumn";
-            productCodeDataGridViewTextBoxColumn.ReadOnly = true;
-            productCodeDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // productNameDataGridViewTextBoxColumn
-            // 
-            productNameDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            productNameDataGridViewTextBoxColumn.DataPropertyName = "productName";
-            productNameDataGridViewTextBoxColumn.HeaderText = "productName";
-            productNameDataGridViewTextBoxColumn.MinimumWidth = 6;
-            productNameDataGridViewTextBoxColumn.Name = "productNameDataGridViewTextBoxColumn";
-            productNameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // quantityDataGridViewTextBoxColumn
-            // 
-            quantityDataGridViewTextBoxColumn.DataPropertyName = "quantity";
-            quantityDataGridViewTextBoxColumn.HeaderText = "quantity";
-            quantityDataGridViewTextBoxColumn.MinimumWidth = 6;
-            quantityDataGridViewTextBoxColumn.Name = "quantityDataGridViewTextBoxColumn";
-            quantityDataGridViewTextBoxColumn.ReadOnly = true;
-            quantityDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // shelfIdDataGridViewTextBoxColumn
-            // 
-            shelfIdDataGridViewTextBoxColumn.DataPropertyName = "shelfId";
-            shelfIdDataGridViewTextBoxColumn.HeaderText = "shelfId";
-            shelfIdDataGridViewTextBoxColumn.MinimumWidth = 6;
-            shelfIdDataGridViewTextBoxColumn.Name = "shelfIdDataGridViewTextBoxColumn";
-            shelfIdDataGridViewTextBoxColumn.ReadOnly = true;
-            shelfIdDataGridViewTextBoxColumn.Visible = false;
-            shelfIdDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // shelfDataGridViewTextBoxColumn
-            // 
-            shelfDataGridViewTextBoxColumn.DataPropertyName = "shelf";
-            shelfDataGridViewTextBoxColumn.HeaderText = "shelf";
-            shelfDataGridViewTextBoxColumn.MinimumWidth = 6;
-            shelfDataGridViewTextBoxColumn.Name = "shelfDataGridViewTextBoxColumn";
-            shelfDataGridViewTextBoxColumn.ReadOnly = true;
-            shelfDataGridViewTextBoxColumn.Width = 125;
             // 
             // productBindingSource
             // 
@@ -450,6 +386,76 @@
             groupBox3.TabIndex = 11;
             groupBox3.TabStop = false;
             groupBox3.Text = "Layout kho thành phẩm";
+            // 
+            // productIdDataGridViewTextBoxColumn
+            // 
+            productIdDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            productIdDataGridViewTextBoxColumn.DataPropertyName = "productId";
+            productIdDataGridViewTextBoxColumn.HeaderText = "productId";
+            productIdDataGridViewTextBoxColumn.MinimumWidth = 6;
+            productIdDataGridViewTextBoxColumn.Name = "productIdDataGridViewTextBoxColumn";
+            productIdDataGridViewTextBoxColumn.ReadOnly = true;
+            productIdDataGridViewTextBoxColumn.Width = 103;
+            // 
+            // poCodeDataGridViewTextBoxColumn
+            // 
+            poCodeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            poCodeDataGridViewTextBoxColumn.DataPropertyName = "poCode";
+            poCodeDataGridViewTextBoxColumn.HeaderText = "poCode";
+            poCodeDataGridViewTextBoxColumn.MinimumWidth = 6;
+            poCodeDataGridViewTextBoxColumn.Name = "poCodeDataGridViewTextBoxColumn";
+            poCodeDataGridViewTextBoxColumn.ReadOnly = true;
+            poCodeDataGridViewTextBoxColumn.Width = 91;
+            // 
+            // productCodeDataGridViewTextBoxColumn
+            // 
+            productCodeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            productCodeDataGridViewTextBoxColumn.DataPropertyName = "productCode";
+            productCodeDataGridViewTextBoxColumn.HeaderText = "productCode";
+            productCodeDataGridViewTextBoxColumn.MinimumWidth = 6;
+            productCodeDataGridViewTextBoxColumn.Name = "productCodeDataGridViewTextBoxColumn";
+            productCodeDataGridViewTextBoxColumn.ReadOnly = true;
+            productCodeDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // productNameDataGridViewTextBoxColumn
+            // 
+            productNameDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            productNameDataGridViewTextBoxColumn.DataPropertyName = "productName";
+            productNameDataGridViewTextBoxColumn.HeaderText = "productName";
+            productNameDataGridViewTextBoxColumn.MinimumWidth = 6;
+            productNameDataGridViewTextBoxColumn.Name = "productNameDataGridViewTextBoxColumn";
+            productNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // quantityDataGridViewTextBoxColumn
+            // 
+            quantityDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            quantityDataGridViewTextBoxColumn.DataPropertyName = "quantity";
+            quantityDataGridViewTextBoxColumn.HeaderText = "quantity";
+            quantityDataGridViewTextBoxColumn.MinimumWidth = 6;
+            quantityDataGridViewTextBoxColumn.Name = "quantityDataGridViewTextBoxColumn";
+            quantityDataGridViewTextBoxColumn.ReadOnly = true;
+            quantityDataGridViewTextBoxColumn.Width = 92;
+            // 
+            // shelfIdDataGridViewTextBoxColumn
+            // 
+            shelfIdDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            shelfIdDataGridViewTextBoxColumn.DataPropertyName = "shelfId";
+            shelfIdDataGridViewTextBoxColumn.HeaderText = "shelfId";
+            shelfIdDataGridViewTextBoxColumn.MinimumWidth = 6;
+            shelfIdDataGridViewTextBoxColumn.Name = "shelfIdDataGridViewTextBoxColumn";
+            shelfIdDataGridViewTextBoxColumn.ReadOnly = true;
+            shelfIdDataGridViewTextBoxColumn.Visible = false;
+            shelfIdDataGridViewTextBoxColumn.Width = 82;
+            // 
+            // shelfDataGridViewTextBoxColumn
+            // 
+            shelfDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            shelfDataGridViewTextBoxColumn.DataPropertyName = "shelf";
+            shelfDataGridViewTextBoxColumn.HeaderText = "shelf";
+            shelfDataGridViewTextBoxColumn.MinimumWidth = 6;
+            shelfDataGridViewTextBoxColumn.Name = "shelfDataGridViewTextBoxColumn";
+            shelfDataGridViewTextBoxColumn.ReadOnly = true;
+            shelfDataGridViewTextBoxColumn.Width = 69;
             // 
             // frmNhapKho
             // 
