@@ -9,15 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
+using Microsoft.EntityFrameworkCore;
+using TQKho.Contexts;
 
 namespace TQKho
 {
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public partial class frmMenu : Form
     {
         private IconButton currentBtn;
         private Panel leftBorderBtn;
         private Form CurrentChildForm;
+
+        private DataContext context;
+
 
 
         public frmMenu()
@@ -31,18 +36,25 @@ namespace TQKho
             this.ControlBox = false;
             this.DoubleBuffered = true;
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
+
+            this.context = new DataContext();
+
+            this.context.Database.EnsureCreated();
+            this.context.Products.Load();
         }
+
+
         //T
         private struct RGBColors
         {
-            public static Color color1 = Color.FromArgb (172, 126, 241);
-            public static Color color2 = Color.FromArgb (249, 118, 176);
-            public static Color color3 = Color.FromArgb (253, 138, 114);
-            public static Color color4 = Color.FromArgb (95, 77, 221);
+            public static Color color1 = Color.FromArgb(172, 126, 241);
+            public static Color color2 = Color.FromArgb(249, 118, 176);
+            public static Color color3 = Color.FromArgb(253, 138, 114);
+            public static Color color4 = Color.FromArgb(95, 77, 221);
         }
         private void ActivateButton(object senderBtn, Color color)
-        { 
-            if(senderBtn != null)
+        {
+            if (senderBtn != null)
             {
                 DisableButton();
                 //Button
@@ -78,10 +90,11 @@ namespace TQKho
 
         private void OpenChildForm(Form ChildForm)
         {
-            if(CurrentChildForm != null)
+            if (CurrentChildForm != null)
             {
                 //open only form
                 CurrentChildForm.Close();
+                CurrentChildForm.Dispose();
             }
             CurrentChildForm = ChildForm;
             ChildForm.TopLevel = false;
@@ -104,7 +117,7 @@ namespace TQKho
         private void btnNhapKho_Click(object sender, EventArgs e)
         {
             ActivateButton(sender, RGBColors.color2);
-            OpenChildForm(new frmNhapKho());
+            OpenChildForm(new frmNhapKho(context));
         }
 
         private void btnXuatKho_Click(object sender, EventArgs e)
@@ -116,7 +129,7 @@ namespace TQKho
         private void btnTrucQuan_Click(object sender, EventArgs e)
         {
             ActivateButton(sender, RGBColors.color4);
-            OpenChildForm(new frmTrucQuan());
+            OpenChildForm(new frmTrucQuan(context));
         }
 
         private void btnTrangChu_Click(object sender, EventArgs e)
@@ -133,13 +146,13 @@ namespace TQKho
             IconCurrentChildForm.IconColor = Color.MediumPurple;
             LbTrangChu.Text = "Home";
         }
-     
+
         //Drag Form
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
         [DllImport("user32.DLL", EntryPoint = "SendMessage")]
         public static extern void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
-   
+
         private void PnTitlebar_MouseDown(object sender, MouseEventArgs e)
         {
             ReleaseCapture();
@@ -162,6 +175,12 @@ namespace TQKho
         private void btnZoomOut_Click(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
+        }
+
+        private void ClosingForm(object sender, FormClosingEventArgs e)
+        {
+            context.Dispose();
+            context = null;
         }
     }
 }

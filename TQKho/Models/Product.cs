@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,9 +29,12 @@ namespace TQKho.Models
         [Required]
         [Range(0, 99999)]
         public long quantity { get; set; }
+
+
+
         [Required]
-        [MaxLength(100)]
-        public string shelfCode { get; set; }
-        
+        public int shelfId { get; set; }
+
+        public Shelf shelf { get; set; }
     }
 }

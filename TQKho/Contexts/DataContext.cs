@@ -8,15 +8,17 @@ using TQKho.Models;
 
 namespace TQKho.Contexts
 {
-    public class ProductContext : DbContext
+    public class DataContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<Shelf> Shelfs { get; set; }
         public string dbPath { get; }
 
-        public ProductContext()
+        public DataContext()
         {
             dbPath = "products.db";
         }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite($"Data Source={dbPath}");
     }

@@ -14,9 +14,9 @@ namespace TQKho
 {
     public partial class XuatKhoConfirmForm : Form
     {
-        private ProductContext productContext = null;
+        private DataContext productContext = null;
         private int productId = -1;
-        public XuatKhoConfirmForm(ProductContext productContext, int productId)
+        public XuatKhoConfirmForm(DataContext productContext, int productId)
         {
             InitializeComponent();
             this.productContext = productContext;

@@ -19,12 +19,14 @@ namespace TQKho
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public partial class frmNhapKho : Form
     {
-        private ProductContext? context;
+        private DataContext? context;
 
         private formInputProductConstraint.InputState? inputState;
         private List<Control> inputControls;
-        public frmNhapKho()
+        public frmNhapKho(DataContext productContext)
         {
+            this.context = productContext;
+
             InitializeComponent();
         }
 
@@ -32,10 +34,6 @@ namespace TQKho
         {
             base.OnLoad(e);
 
-            this.context = new ProductContext();
-
-            this.context.Database.EnsureCreated();
-            this.context.Products.Load();
 
             this.productBindingSource.DataSource = context.Products.Local.ToBindingList();
 
@@ -91,14 +89,6 @@ namespace TQKho
             }
         }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-
-            this.context?.Dispose();
-            this.context = null;
-        }
-
         private void productGridView_SelectionChanged(object sender, EventArgs e)
         {
             if (this.context != null)
@@ -113,9 +103,9 @@ namespace TQKho
             this.dataGridViewProducts.Refresh();
         }
 
-        private void validate(Product product)
+        private void validate(string shelfCode)
         {
-            var shelfCodeValidator = Regex.Match(product.shelfCode, @"^[a-zA-Z]\d+$");
+            var shelfCodeValidator = Regex.Match(shelfCode, @"^[a-zA-Z]\d+$");
             if (!shelfCodeValidator.Success)
             {
                 throw new ShelfCodeInvalidException();
@@ -124,22 +114,62 @@ namespace TQKho
 
         private void saveButton_clicked(object sender, EventArgs e)
         {
-            if (inputState == formInputProductConstraint.InputState.ON_CREATE)
+            if (inputState == formInputProductConstraint.InputState.ON_CREATE ||
+                inputState == formInputProductConstraint.InputState.ON_EDIT)
             {
                 try
                 {
+                    var shelfCode = productShelfTextBox.Text.ToUpper();
+                    var intQuantity = int.Parse(productQuantityTextBox.Text);
+                    validate(shelfCode);
+
                     var newProduct = new Product
                     {
                         poCode = poTextBox.Text,
                         productCode = productCodeTextBox.Text,
                         productName = productNameTextBox.Text,
-                        quantity = int.Parse(productQuantityTextBox.Text),
-                        shelfCode = productShelfTextBox.Text.ToUpper()
+                        quantity = intQuantity
                     };
 
-                    validate(newProduct);
+                    if (inputState == formInputProductConstraint.InputState.ON_CREATE)
+                    {
+                        var shelf = this.context!.Shelfs.Where(s => s.shelfCode == shelfCode).FirstOrDefault();
+                        if (shelf == null)
+                        {
+                            //create new shelf
+                            shelf = new Shelf()
+                            {
+                                shelfCode = shelfCode,
+                            };
 
-                    this.context!.Products.Add(newProduct);
+                            this.context.Add(shelf);
+                        }
+
+                        shelf.products.Add(newProduct);
+                    }
+                    else
+                    {
+                        var product = this.context!.Products.Where(p => p.productId == int.Parse(productIdTextbox.Text)).FirstOrDefault();
+                        product.poCode = poTextBox.Text;
+                        product.quantity = intQuantity;
+                        product.productCode = productCodeTextBox.Text;
+                        product.productName = productNameTextBox.Text;
+
+                        var shelf = context!.Shelfs.Where(s => s.shelfCode == shelfCode).FirstOrDefault();
+                        if (shelf == null)
+                        {
+                            shelf = new Shelf()
+                            {
+                                shelfCode = shelfCode
+                            };
+                            shelf.products.Add(product);
+
+                            product.shelf.products.Remove(product);
+
+                            context!.Shelfs.Add(shelf);
+
+                        }
+                    }
 
                     saveAndRefresh();
                     inputControls.ForEach(control => control.Text = "");
@@ -157,35 +187,8 @@ namespace TQKho
                 }
 
             }
-            else if (inputState == formInputProductConstraint.InputState.ON_EDIT)
-            {
-                try
-                {
-                    var product = (Product)this.dataGridViewProducts.CurrentRow.DataBoundItem;
 
-                    product.poCode = poTextBox.Text;
-                    product.productCode = productCodeTextBox.Text;
-                    product.productName = productNameTextBox.Text;
-                    product.quantity = int.Parse(productQuantityTextBox.Text);
-                    product.shelfCode = productShelfTextBox.Text;
 
-                    validate(product);
-
-                    saveAndRefresh();
-                    inputControls.ForEach(control => control.Text = "");
-
-                    inputState = formInputProductConstraint.InputState.DISABLE;
-                    setInputStateBaseOnState();
-                }
-                catch (ShelfCodeInvalidException)
-                {
-                    MessageBox.Show("Vui lòng kiểm tra lại\nSai định dạng mã kệ\nVD:K1, B2, K9, C1,...");
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Vui lòng kiểm tra lại thông tin đã nhập...\nVD: số lượng phải là số nguyên, không được để trống ô");
-                }
-            }
         }
 
         private void dataGridViewProducts_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -227,12 +230,12 @@ namespace TQKho
             inputState = formInputProductConstraint.InputState.ON_EDIT;
             setInputStateBaseOnState();
 
+            productIdTextbox.Text = product.productId.ToString();
             poTextBox.Text = product.poCode;
             productCodeTextBox.Text = product.productCode;
             productNameTextBox.Text = product.productName;
             productQuantityTextBox.Text = product.quantity.ToString();
-            productShelfTextBox.Text = product.shelfCode;
-
+            productShelfTextBox.Text = context!.Shelfs.Where(s => s.shelfId == product.shelfId).FirstOrDefault().shelfCode;
 
         }
 
@@ -273,22 +276,7 @@ namespace TQKho
             productCodeTextBox.Text = product.productCode;
             productNameTextBox.Text = product.productName;
             productQuantityTextBox.Text = product.quantity.ToString();
-            productShelfTextBox.Text = product.shelfCode;
-        }
-
-        private void cellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-            try
-            {
-                var product = (Product)this.dataGridViewProducts.CurrentRow.DataBoundItem;
-                validate(product);
-            }
-            catch (ShelfCodeInvalidException)
-            {
-                MessageBox.Show("Thông tin mã kệ không hợp lệ\nVD: K1, A1, B2,..");
-                e.Cancel = true;
-            }
-
+            productShelfTextBox.Text = context!.Shelfs.Where(s => s.shelfId == product.shelfId).FirstOrDefault().shelfCode;
         }
     }
 }

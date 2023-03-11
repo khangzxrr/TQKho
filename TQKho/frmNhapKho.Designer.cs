@@ -39,7 +39,8 @@
             productCodeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             productNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             quantityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            shelfCodeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            shelfIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            shelfDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             productBindingSource = new BindingSource(components);
             toolStrip1 = new ToolStrip();
             iconToolStripButton1 = new FontAwesome.Sharp.IconToolStripButton();
@@ -51,6 +52,7 @@
             toolStripTextBox1 = new ToolStripTextBox();
             iconToolStripButton5 = new FontAwesome.Sharp.IconToolStripButton();
             groupBox2 = new GroupBox();
+            productIdTextbox = new TextBox();
             exportBtn = new Button();
             productShelfTextBox = new TextBox();
             label6 = new Label();
@@ -89,6 +91,7 @@
             // dataGridViewProducts
             // 
             dataGridViewProducts.AllowUserToAddRows = false;
+            dataGridViewProducts.AllowUserToDeleteRows = false;
             dataGridViewProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridViewProducts.AutoGenerateColumns = false;
             dataGridViewProducts.BackgroundColor = SystemColors.MenuBar;
@@ -101,12 +104,12 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dataGridViewProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridViewProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewProducts.Columns.AddRange(new DataGridViewColumn[] { productIdDataGridViewTextBoxColumn, poCodeDataGridViewTextBoxColumn, productCodeDataGridViewTextBoxColumn, productNameDataGridViewTextBoxColumn, quantityDataGridViewTextBoxColumn, shelfCodeDataGridViewTextBoxColumn });
+            dataGridViewProducts.Columns.AddRange(new DataGridViewColumn[] { productIdDataGridViewTextBoxColumn, poCodeDataGridViewTextBoxColumn, productCodeDataGridViewTextBoxColumn, productNameDataGridViewTextBoxColumn, quantityDataGridViewTextBoxColumn, shelfIdDataGridViewTextBoxColumn, shelfDataGridViewTextBoxColumn });
             dataGridViewProducts.DataSource = productBindingSource;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = SystemColors.Window;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = Color.Gainsboro;
+            dataGridViewCellStyle2.ForeColor = Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
@@ -128,33 +131,29 @@
             dataGridViewProducts.Size = new Size(840, 591);
             dataGridViewProducts.TabIndex = 1;
             dataGridViewProducts.CellClick += cellClick;
-            dataGridViewProducts.CellValidating += cellValidating;
             dataGridViewProducts.DataError += dataGridViewProducts_DataError;
             dataGridViewProducts.SelectionChanged += productGridView_SelectionChanged;
             // 
             // productIdDataGridViewTextBoxColumn
             // 
-            productIdDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             productIdDataGridViewTextBoxColumn.DataPropertyName = "productId";
             productIdDataGridViewTextBoxColumn.HeaderText = "productId";
             productIdDataGridViewTextBoxColumn.MinimumWidth = 6;
             productIdDataGridViewTextBoxColumn.Name = "productIdDataGridViewTextBoxColumn";
             productIdDataGridViewTextBoxColumn.ReadOnly = true;
-            productIdDataGridViewTextBoxColumn.Width = 103;
+            productIdDataGridViewTextBoxColumn.Width = 125;
             // 
             // poCodeDataGridViewTextBoxColumn
             // 
-            poCodeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             poCodeDataGridViewTextBoxColumn.DataPropertyName = "poCode";
             poCodeDataGridViewTextBoxColumn.HeaderText = "poCode";
             poCodeDataGridViewTextBoxColumn.MinimumWidth = 6;
             poCodeDataGridViewTextBoxColumn.Name = "poCodeDataGridViewTextBoxColumn";
             poCodeDataGridViewTextBoxColumn.ReadOnly = true;
-            poCodeDataGridViewTextBoxColumn.Width = 91;
+            poCodeDataGridViewTextBoxColumn.Width = 125;
             // 
             // productCodeDataGridViewTextBoxColumn
             // 
-            productCodeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             productCodeDataGridViewTextBoxColumn.DataPropertyName = "productCode";
             productCodeDataGridViewTextBoxColumn.HeaderText = "productCode";
             productCodeDataGridViewTextBoxColumn.MinimumWidth = 6;
@@ -173,23 +172,31 @@
             // 
             // quantityDataGridViewTextBoxColumn
             // 
-            quantityDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             quantityDataGridViewTextBoxColumn.DataPropertyName = "quantity";
             quantityDataGridViewTextBoxColumn.HeaderText = "quantity";
             quantityDataGridViewTextBoxColumn.MinimumWidth = 6;
             quantityDataGridViewTextBoxColumn.Name = "quantityDataGridViewTextBoxColumn";
             quantityDataGridViewTextBoxColumn.ReadOnly = true;
-            quantityDataGridViewTextBoxColumn.Width = 92;
+            quantityDataGridViewTextBoxColumn.Width = 125;
             // 
-            // shelfCodeDataGridViewTextBoxColumn
+            // shelfIdDataGridViewTextBoxColumn
             // 
-            shelfCodeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            shelfCodeDataGridViewTextBoxColumn.DataPropertyName = "shelfCode";
-            shelfCodeDataGridViewTextBoxColumn.HeaderText = "shelfCode";
-            shelfCodeDataGridViewTextBoxColumn.MinimumWidth = 6;
-            shelfCodeDataGridViewTextBoxColumn.Name = "shelfCodeDataGridViewTextBoxColumn";
-            shelfCodeDataGridViewTextBoxColumn.ReadOnly = true;
-            shelfCodeDataGridViewTextBoxColumn.Width = 104;
+            shelfIdDataGridViewTextBoxColumn.DataPropertyName = "shelfId";
+            shelfIdDataGridViewTextBoxColumn.HeaderText = "shelfId";
+            shelfIdDataGridViewTextBoxColumn.MinimumWidth = 6;
+            shelfIdDataGridViewTextBoxColumn.Name = "shelfIdDataGridViewTextBoxColumn";
+            shelfIdDataGridViewTextBoxColumn.ReadOnly = true;
+            shelfIdDataGridViewTextBoxColumn.Visible = false;
+            shelfIdDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // shelfDataGridViewTextBoxColumn
+            // 
+            shelfDataGridViewTextBoxColumn.DataPropertyName = "shelf";
+            shelfDataGridViewTextBoxColumn.HeaderText = "shelf";
+            shelfDataGridViewTextBoxColumn.MinimumWidth = 6;
+            shelfDataGridViewTextBoxColumn.Name = "shelfDataGridViewTextBoxColumn";
+            shelfDataGridViewTextBoxColumn.ReadOnly = true;
+            shelfDataGridViewTextBoxColumn.Width = 125;
             // 
             // productBindingSource
             // 
@@ -288,6 +295,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(productIdTextbox);
             groupBox2.Controls.Add(exportBtn);
             groupBox2.Controls.Add(productShelfTextBox);
             groupBox2.Controls.Add(label6);
@@ -310,6 +318,14 @@
             groupBox2.TabIndex = 10;
             groupBox2.TabStop = false;
             groupBox2.Text = "Nhập Thông Tin";
+            // 
+            // productIdTextbox
+            // 
+            productIdTextbox.Location = new Point(344, 44);
+            productIdTextbox.Name = "productIdTextbox";
+            productIdTextbox.Size = new Size(125, 27);
+            productIdTextbox.TabIndex = 21;
+            productIdTextbox.Visible = false;
             // 
             // exportBtn
             // 
@@ -484,12 +500,14 @@
         private Label label6;
         private TextBox productShelfTextBox;
         private BindingSource productBindingSource;
+        private Button exportBtn;
+        private TextBox productIdTextbox;
         private DataGridViewTextBoxColumn productIdDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn poCodeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn productCodeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn productNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn quantityDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn shelfCodeDataGridViewTextBoxColumn;
-        private Button exportBtn;
+        private DataGridViewTextBoxColumn shelfIdDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn shelfDataGridViewTextBoxColumn;
     }
 }

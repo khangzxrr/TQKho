@@ -9,7 +9,7 @@ using TQKho.Contexts;
 
 namespace TQKho.Migrations
 {
-    [DbContext(typeof(ProductContext))]
+    [DbContext(typeof(DataContext))]
     [Migration("20230226055135_InitialCreate")]
     partial class InitialCreate
     {

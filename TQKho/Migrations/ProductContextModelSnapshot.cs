@@ -8,7 +8,7 @@ using TQKho.Contexts;
 
 namespace TQKho.Migrations
 {
-    [DbContext(typeof(ProductContext))]
+    [DbContext(typeof(DataContext))]
     partial class ProductContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
